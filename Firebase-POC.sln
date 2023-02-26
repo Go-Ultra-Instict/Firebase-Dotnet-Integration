@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev-TestMate-Web-API", "Dev-TestMate-Web-API\Dev-TestMate-Web-API.csproj", "{95CBF5E5-23F7-4FD2-BB82-113A496A7EE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev.TestMate.WebAPI", "Dev-TestMate-Web-API\Dev.TestMate.WebAPI.csproj", "{95CBF5E5-23F7-4FD2-BB82-113A496A7EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev-TestMate-Console-App", "Dev-TestMate-Console-App\Dev-TestMate-Console-App.csproj", "{5ACB5758-DB12-46DD-AB88-BD2849826BDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev.Test.Mate.ConsoleApp", "Dev-TestMate-Console-App\Dev.Test.Mate.ConsoleApp.csproj", "{5ACB5758-DB12-46DD-AB88-BD2849826BDA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Firebase-Integration", "Firebase-Integration", "{B5F46D6C-CD55-4753-A257-8C10C50BA92F}"
 EndProject
