@@ -1,6 +1,7 @@
 ﻿using Dev.TestMate.WebAPI.Models;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Dev.TestMate.WebAPI.Controllers;
 
@@ -8,6 +9,7 @@ namespace Dev.TestMate.WebAPI.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
+  //  [Authorize]
     [HttpPost("Create")]
     public async Task<UserRecord> CreateAsync(UserInvitation request)
     {
@@ -45,5 +47,34 @@ public class UserController : ControllerBase
 
             throw ex;
         }
+    }
+
+    [HttpGet("GetUserRecords")]
+    public async Task<List<ExportedUserRecord>> GetUserRecords()
+    {
+      List<ExportedUserRecord> userList2= new List<ExportedUserRecord>() { };
+      IAsyncEnumerator<ExportedUserRecord>  enumerator = FirebaseAuth.DefaultInstance.ListUsersAsync(null).GetAsyncEnumerator();
+        while (await enumerator.MoveNextAsync())
+        {
+            userList2.Add(enumerator.Current);
+        }
+        return userList2;
+       
+    }
+
+
+
+
+    [HttpDelete("DeleteUser")]
+    public async Task<object?> DeleteUser(string id)
+    {
+
+        if (!String.IsNullOrEmpty(id))
+        {
+            await FirebaseAuth.DefaultInstance.DeleteUserAsync(id);
+        }
+
+
+        return null;
     }
 }

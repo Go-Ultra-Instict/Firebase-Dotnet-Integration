@@ -1,18 +1,27 @@
+using Dev.TestMate.WebAPI.ConfigurationSevices;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-var con = builder.Configuration;
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+});
+
+builder.Services.AddFirebaseAuthentication();
 builder.Services.AddSingleton(FirebaseApp.Create(new AppOptions()
 {
-     Credential = GoogleCredential.FromFile(con["GoogleCredentialPath"])
+     Credential = GoogleCredential.FromFile(builder.Configuration["GoogleCredentialPath"])
   //  Credential = GoogleCredential.GetApplicationDefault()
 }));
 
@@ -26,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
