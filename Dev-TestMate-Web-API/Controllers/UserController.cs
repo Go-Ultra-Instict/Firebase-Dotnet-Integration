@@ -1,4 +1,5 @@
-﻿using Dev.TestMate.WebAPI.Models;
+﻿using Dev.TestMate.WebAPI.Common;
+using Dev.TestMate.WebAPI.Models;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -68,13 +69,26 @@ public class UserController : ControllerBase
     [HttpDelete("DeleteUser")]
     public async Task<object?> DeleteUser(string id)
     {
-
-        if (!String.IsNullOrEmpty(id))
+        try
         {
-            await FirebaseAuth.DefaultInstance.DeleteUserAsync(id);
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                await FirebaseAuth.DefaultInstance.DeleteUserAsync(id);
+            }
+
+
+            return null;
         }
+        catch (FirebaseAuthException ex)
+        {
 
+            if (ex.AuthErrorCode == FirebaseAdmin.Auth.AuthErrorCode.UserNotFound)
+            {
 
-        return null;
+                throw new TestMateException( ex);
+            }
+            throw;
+        }
     }
 }
