@@ -31,7 +31,7 @@ public class UserController : ControllerBase
                new Dictionary<string, object>()
                {
                        {"role","Admin" }
-               } );
+               });
 
             return await FirebaseAuth.DefaultInstance.GetUserAsync(userRecord.Uid);
 
@@ -91,4 +91,11 @@ public class UserController : ControllerBase
             throw;
         }
     }
+
+    // TODO  Write a post API for Sign In to Firebase 
+    // Use REST API of Firebase
+
+
+    // TODO  Write Signup
+
 }
