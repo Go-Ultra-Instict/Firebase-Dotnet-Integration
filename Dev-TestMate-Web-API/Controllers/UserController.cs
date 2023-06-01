@@ -30,7 +30,8 @@ public class UserController : ControllerBase
                 userRecord.Uid,
                new Dictionary<string, object>()
                {
-                       {"role","Admin" }
+                       {"role","Admin" },
+                       { "hub_user_id",5}
                });
 
             return await FirebaseAuth.DefaultInstance.GetUserAsync(userRecord.Uid);
@@ -92,6 +93,42 @@ public class UserController : ControllerBase
         }
     }
 
+    [HttpPost("UpdateUser")]
+    public async Task<UserRecord> UpdateUser(
+      string uId,string dbId, string email
+    )
+    {
+        try
+        {
+            var claims = new Dictionary<string, object>()
+               {
+                       {"role","Admin" },
+                       { "hub_user_id",dbId}
+               };
+            if (claims != null)
+            {
+                await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(
+                    uId,
+                    claims
+                );
+            }
+            UserRecordArgs userArgs = new UserRecordArgs { Uid = uId ,Email=email};
+          
+
+            UserRecord userRecord = await FirebaseAuth.DefaultInstance.UpdateUserAsync(
+                userArgs
+            );
+            return userRecord;
+        }
+        catch (FirebaseAuthException ex)
+        {
+            if (ex.AuthErrorCode == AuthErrorCode.UserNotFound)
+            {
+                throw new BadHttpRequestException("User not found", StatusCodes.Status404NotFound);
+            }
+            throw ex;
+        }
+    }
     // TODO  Write a post API for Sign In to Firebase 
     // Use REST API of Firebase
 
